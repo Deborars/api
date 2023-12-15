@@ -2,12 +2,40 @@
 
 function api_usuario_post($request)
 {
-  $email_usuario = $request['email'];
+  $email = sanitize_email($request['email']);
+  $nome  = sanitize_text_field($request['nome']);
+  $senha = $request['senha'];
+  $cep   = sanitize_text_field($request['cep']);
+  $endereco = sanitize_text_field($request['endereco']);
+  $bairro = sanitize_text_field($request['bairro']);
+  $numero = sanitize_text_field($request['numero']);
+  $cidade = sanitize_text_field($request['cidade']);
+  $estado = sanitize_text_field($request['estado']);
 
-  $response = array(
-    'nome' => 'andre',
-    'email' => $email_usuario
-  );
+  $user_exists = username_exists($email);
+  $email_exists = email_exists($email);
+
+  if (!$user_exists && !$email_exists && $email && $senha) {
+    $user_id = wp_create_user($email, $senha, $email);
+
+    $response = array(
+      'ID' => $user_id,
+      'display_name' => $nome,
+      'first_name'   => $nome,
+      'role' => 'subscriber'
+    );
+
+    wp_update_user($response);
+
+    update_user_meta($user_id, 'cep', $cep);
+    update_user_meta($user_id, 'endereco', $endereco);
+    update_user_meta($user_id, 'bairro', $bairro);
+    update_user_meta($user_id, 'numero', $numero);
+    update_user_meta($user_id, 'cidade', $cidade);
+    update_user_meta($user_id, 'estado', $estado);
+  } else {
+    $response = new WP_Error('email', 'Email já cadastrado', array('status' => 403));
+  }
 
   return rest_ensure_response($response);
 }
