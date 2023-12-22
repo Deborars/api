@@ -32,7 +32,7 @@ function api_produto_post($request)
 
     if ($files) {
       require_once(ABSPATH . 'wp-admin/includes/image.php');
-      require_once(ABSPATH . 'wp-admin/includes/files.php');
+      require_once(ABSPATH . 'wp-admin/includes/file.php');
       require_once(ABSPATH . 'wp-admin/includes/media.php');
 
       foreach ($files as $file => $array) {

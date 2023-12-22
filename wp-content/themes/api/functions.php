@@ -11,6 +11,22 @@ require_once($template_directory . '/endpoints/usuario_get.php');
 require_once($template_directory . '/endpoints/usuario_put.php');
 
 require_once($template_directory . '/endpoints/produto_post.php');
+require_once($template_directory . '/endpoints/produto_get.php');
+
+
+function get_produto_id_by_slug($slug)
+{
+  $query = new WP_Query(array(
+    'name' => $slug,
+    'post_type' => 'produto',
+    'numberposts' => 1,
+    'fields' => 'ids'
+  ));
+  $posts = $query->get_posts();
+
+  return array_shift($posts);
+}
+
 
 function expire_token()
 {

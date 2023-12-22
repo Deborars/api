@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="file" name="file" id="file" multiple>
+  <button id="enviar">Enviar</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const btn = document.querySelector('#enviar');
+    const input = document.querySelector('input');
+
+    btn.addEventListener('click', () => {
+      const form = new FormData();
+
+      form.append('nome', 'mouser');
+      form.append('descricao', 'Um otimo mouse');
+      form.append('preco', '199');
+
+      for (let i = 0; i < input.files.length; i++) {
+        form.append(input.files[i].name, input.files[i])
+      }
+
+      axios.post(
+        'http://localhost:8080/api/wp-json/api/produto',
+        form, {
+        headers: {
+          'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpIiwiaWF0IjoxNzAyNzYwNTYxLCJuYmYiOjE3MDI3NjA1NjEsImV4cCI6MTcwMjg0Njk2MSwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiNCJ9fX0.Yby5c4xolwcu43A4NuoPw3LVih3Y9LNwTglNAbFO2nE'
+        }
+      })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+    })
+
+  </script>
+</body>
+
+</html>
