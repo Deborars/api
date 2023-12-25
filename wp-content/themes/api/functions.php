@@ -15,6 +15,7 @@ require_once($template_directory . '/endpoints/produto_get.php');
 require_once($template_directory . '/endpoints/produto_delete.php');
 
 require_once($template_directory . '/endpoints/transacao_post.php');
+require_once($template_directory . '/endpoints/transacao_get.php');
 
 function get_produto_id_by_slug($slug)
 {
