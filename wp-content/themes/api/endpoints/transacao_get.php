@@ -4,7 +4,7 @@
 function api_transacao_get($request)
 {
   //tipo: será ou vendendor_id ou comprador_id
-  $tipo = sanitize_text_field($request['tipo']) ?: 'vendedor_id';
+  $tipo = sanitize_text_field($request['tipo']) ?: 'comprador_id';
   $user = wp_get_current_user();
   $user_id = $user->ID;
 
@@ -40,7 +40,7 @@ function api_transacao_get($request)
       $post_meta = get_post_meta($post_id);
 
 
-      $produtos[] = array(
+      $response[] = array(
         'comprador_id' => $post_meta['comprador_id'][0],
         'vendedor_id'  => $post_meta['vendedor_id'][0],
         'endereco'     => json_decode($post_meta['endereco'][0]),
